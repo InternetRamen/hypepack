@@ -64,7 +64,7 @@ module.exports = class Hype {
     }
     //player
     async getPlayer(username) {
-        if (!username) throw "Please include a parameter!"
+        ensureParameters(username)
         return fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`, {
             method: "GET"
         }).then(response => response.json())
@@ -105,14 +105,14 @@ module.exports = class Hype {
     }
     //resources
     async getResources(resource) {
-        if (!resource) throw "Please include a parameter!"
+        ensureParameters(resource)
         return fetch(`https://api.hypixel.net/resources/${resource}`, {
             method: 'GET'
         }).then(response => response.json())
     }
     //skyblock
     async getSkyblockProfiles(UUID) {
-        if (!UUID) throw "Please include a parameter!"
+        ensureParameters(UUID)
         let profiles = await fetchMore(this.apikey, "skyblock/profiles", `&uuid=${UUID}`)
         return profiles
     }
@@ -120,5 +120,26 @@ module.exports = class Hype {
         let products = await apiFetch(this.apikey, "skyblock/bazaar")
         return products
     }
-    
+    async getProduct(productID) {
+        ensureParameters(productID)
+        let product = await fetchMore(this.apikey, "skyblock/bazaar/product", `&productId=${productID}`)
+        return product
+    }
+    async getSkyblockAuction(obj) {
+        ensureParameters(obj)
+        if (typeof options !== "object") throw "Parameter must be an object."
+        let template = {
+            player: "",
+            profile: "",
+            uuid: ""
+        }
+        let templateMap = Object.keys(template)
+        let optionsMap = Object.keys(options)
+        if (optionsMap.length > 1) throw "Specify a singular parameter."
+        if (templateMap.some(val => optionsMap.includes(val))) { 
+            let option = optionsMap.toString()
+            let guild = await fetchMore(this.apikey, "skyblock/auction", `&${option}=${options[option]}`)
+            return guild
+        } else throw "Parameter does not include a valid value." 
+    } 
 }
