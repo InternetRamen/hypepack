@@ -142,4 +142,9 @@ module.exports = class Hype {
             return guild
         } else throw "Parameter does not include a valid value." 
     } 
+    async getCurrentAuctions(page) {
+        ensureParameters(page)
+        let obj = await fetchMore(this.apikey, "skyblock/auctions", `&page=${page}`)
+        return obj
+    }
 }
