@@ -1,0 +1,26 @@
+{
+  "name": "@internetramen/hypixel.js",
+  "version": "0.0.4",
+  "description": "Package for the Minecraft server Hypixel.",
+  "main": "index.js",
+  "scripts": {
+    "index": "node index.js"
+  },
+  "author": "InternetRamen",
+  "license": "MIT",
+  "keywords": [
+    "hypixel"
+  ],
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InternetRamen/hypixel.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/InternetRamen/hypixel.js/issues"
+  },
+  "homepage": "https://github.com/InternetRamen/hypixel.js#readme"
+}
