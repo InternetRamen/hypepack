@@ -120,4 +120,11 @@ module.exports = class Hype {
         let products = await apiFetch(this.apikey, "skyblock/bazaar")
         return products
     }
+    async getProduct(productID) {
+        if (!productID) throw "Please include a parameter!"
+        let products = await apiFetch(this.apikey, "skyblock/bazaar")
+        console.log(products)
+        let product = products["products"].find(val => val.product_id === productID)
+        return product
+    }
 }
