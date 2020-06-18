@@ -147,4 +147,16 @@ module.exports = class Hype {
         let obj = await fetchMore(this.apikey, "skyblock/auctions", `&page=${page}`)
         return obj
     }
+    async getTopMargins() { // does not calculate demand
+        let products = await apiFetch(this.apikey, "skyblock/bazaar")
+        let array = Object.keys(products["products"]).map(i => products["products"][i]["quick_status"])
+        console.log(array)
+        let list = array.sort(function (a, b) {
+            let aMargin = a.buyPrice - a.sellPrice*0.99
+            let bMargin = b.buyPrice - b.sellPrice*0.99
+            return bMargin - aMargin
+        })
+        let top5 = list.splice(0, 5)
+        return top5
+    }
 }
