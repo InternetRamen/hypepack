@@ -158,4 +158,60 @@ module.exports = class Hype {
         let top5 = list.splice(0, 5)
         return top5
     }
+    async getArmor(object) {
+        ensureParameters(object)
+        if (typeof object !== "object") throw "Parameter must be an object."
+        let template = {
+            uuid: "",
+            profileName: ""
+        }
+        if (!Object.keys(object).some(val => Object.keys(template).includes(val))) throw "Invalid object parameters."
+        let nbt = require("prismarine-nbt")
+        let profiles = await fetchMore(this.apikey, "skyblock/profiles", `&uuid=${object.uuid}`)
+        let direction = profiles.profiles.find(val => val.cute_name === object.profileName).members[object.uuid].inv_armor.data
+        let decoded = Buffer.from(direction, "base64")
+        let finalOutput = await new Promise(resolve => {
+            nbt.parse(decoded, (error, json) => {
+                if (error) {
+                    throw error
+                }
+               
+                let helper = {
+                    boots: {
+                        number: 0,
+                        value: json.value.i.value.value[0]
+                    },
+                    leggs: {
+                        number: 1,
+                        value: json.value.i.value.value[1],
+                    },
+                    chest: {
+                        number: 2,
+                        value: json.value.i.value.value[2]
+                    },
+                    helm: {
+                        number: 3,
+                        value: json.value.i.value.value[3]
+                    }
+                }
+                Object.keys(helper).forEach(val => {
+                    if (Object.keys(helper[val].value).length !== 0) {
+                        helper[val].value = json.value.i.value.value[helper[val].number].tag.value.ExtraAttributes.value
+                    } else if (Object.keys(helper[val].value).length === 0) {
+                        helper[val].value = {}
+                    }
+                })
+                let armorObj = {
+                    boots: helper["boots"]["value"],
+                    leggs: helper["leggs"]["value"],
+                    chest: helper["chest"]["value"],
+                    helm: helper["helm"]["value"], 
+                }
+                return resolve(armorObj)
+              });
+            
+        })
+       return finalOutput
+
+    }
 }
