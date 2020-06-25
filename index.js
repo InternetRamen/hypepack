@@ -151,8 +151,8 @@ module.exports = class Hype {
         let products = await apiFetch(this.apikey, "skyblock/bazaar")
         let array = Object.keys(products["products"]).map(i => products["products"][i]["quick_status"])
         let list = array.sort(function (a, b) {
-            let aMargin = a.buyPrice*0.99 - a.sellPrice
-            let bMargin = b.buyPrice*0.99 - b.sellPrice
+            let aMargin = a.buyPrice*1.01 - a.sellPrice
+            let bMargin = b.buyPrice*1.01 - b.sellPrice
             return bMargin - aMargin
         })
         let top5 = list.splice(0, 5)
