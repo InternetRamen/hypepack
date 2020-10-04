@@ -3,7 +3,7 @@ async function apiFetch(apikey, path) {
     return fetch(`https://api.hypixel.net/${path}?key=${apikey}`, {
         method: "GET"
     })
-    .then(response => response.json())
+        .then(response => response.json())
 }
 async function fetchMore(apikey, path, parameters) {
     let para = parameters.replace(/\s/g, "+")
@@ -20,8 +20,8 @@ module.exports = class Hype {
     }
     //playerCount
     async getPlayerCount() {
-      let playerCount = await apiFetch(this.apikey, "playerCount")
-      return playerCount
+        let playerCount = await apiFetch(this.apikey, "playerCount")
+        return playerCount
     }
     //guild
     async getGuildIDByName(name) {
@@ -45,11 +45,11 @@ module.exports = class Hype {
         let templateMap = Object.keys(template)
         let optionsMap = Object.keys(options)
         if (optionsMap.length > 1) throw "Specify a singular parameter."
-        if (templateMap.some(val => optionsMap.includes(val))) { 
+        if (templateMap.some(val => optionsMap.includes(val))) {
             let option = optionsMap.toString()
             let guild = await fetchMore(this.apikey, "guild", `&${option}=${options[option]}`)
             return guild
-        } else throw "Parameter does not include a valid value." 
+        } else throw "Parameter does not include a valid value."
     }
     //getstatus
     async getStatus(UUID) {
@@ -136,12 +136,12 @@ module.exports = class Hype {
         let templateMap = Object.keys(template)
         let optionsMap = Object.keys(options)
         if (optionsMap.length > 1) throw "Specify a singular parameter."
-        if (templateMap.some(val => optionsMap.includes(val))) { 
+        if (templateMap.some(val => optionsMap.includes(val))) {
             let option = optionsMap.toString()
             let guild = await fetchMore(this.apikey, "skyblock/auction", `&${option}=${options[option]}`)
             return guild
-        } else throw "Parameter does not include a valid value." 
-    } 
+        } else throw "Parameter does not include a valid value."
+    }
     async getCurrentAuctions(page) {
         ensureParameters(page)
         let obj = await fetchMore(this.apikey, "skyblock/auctions", `&page=${page}`)
@@ -151,8 +151,8 @@ module.exports = class Hype {
         let products = await apiFetch(this.apikey, "skyblock/bazaar")
         let array = Object.keys(products["products"]).map(i => products["products"][i]["quick_status"])
         let list = array.sort(function (a, b) {
-            let aMargin = a.buyPrice*1.01 - a.sellPrice
-            let bMargin = b.buyPrice*1.01 - b.sellPrice
+            let aMargin = a.buyPrice * 1.01 - a.sellPrice
+            let bMargin = b.buyPrice * 1.01 - b.sellPrice
             return bMargin - aMargin
         })
         let top5 = list.splice(0, 5)
@@ -175,7 +175,7 @@ module.exports = class Hype {
                 if (error) {
                     throw error
                 }
-               
+
                 let helper = {
                     boots: {
                         number: 0,
@@ -205,13 +205,13 @@ module.exports = class Hype {
                     boots: helper["boots"]["value"],
                     leggs: helper["leggs"]["value"],
                     chest: helper["chest"]["value"],
-                    helm: helper["helm"]["value"], 
+                    helm: helper["helm"]["value"],
                 }
                 return resolve(armorObj)
-              });
-            
+            });
+
         })
-       return finalOutput
+        return finalOutput
 
     }
 }

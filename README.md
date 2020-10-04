@@ -1,4 +1,4 @@
-# hypixel.js
+# hypepack
 
 A node.js library for the Minecraft Hypixel Server
 
