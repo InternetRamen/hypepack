@@ -14,7 +14,7 @@ A node.js library for the Minecraft Hypixel Server
 You may want to rename the file to something else besides index.js, but navigate to the file in your require statement to properly import the Hype Class
 
 ```js
-const Hype = require('./index');
+const Hype = require('hypepack');
 ```
 
 ### Instance of Hype Class
